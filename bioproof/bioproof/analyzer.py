@@ -130,7 +130,19 @@ def periodicity_score(gray: np.ndarray) -> float:
     return float(global_mean - center)
 
 
-def analyze_image(path: str, ai_declared: bool = False, stamp_path: str = "assets/digital_stamp.png") -> dict:
+_ASSETS_DIR = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), "assets")
+
+
+def default_stamp_path() -> str:
+    """Return the bundled watermark stamp, whichever name it was saved under."""
+    for name in ("digital_stamp.png", "ai_stamp.png"):
+        candidate = os.path.join(_ASSETS_DIR, name)
+        if os.path.exists(candidate):
+            return candidate
+    return os.path.join(_ASSETS_DIR, "digital_stamp.png")
+
+
+def analyze_image(path: str, ai_declared: bool = False, stamp_path: str = None) -> dict:
     """Analyze a single image for integrity issues.
 
     Performs multiple checks:
@@ -147,6 +159,8 @@ def analyze_image(path: str, ai_declared: bool = False, stamp_path: str = "asset
     Returns:
         Dictionary with analysis results matching the JSON schema
     """
+    if stamp_path is None:
+        stamp_path = default_stamp_path()
     gray = load_gray(path)
     if gray is None:
         return {
