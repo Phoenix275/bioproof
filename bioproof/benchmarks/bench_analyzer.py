@@ -21,7 +21,7 @@ import numpy as np
 
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
-from bioproof.analyzer import analyze_image, default_stamp_path  # noqa: E402
+from bioproof.analyzer import analyze_image, default_stamp_path
 
 
 def make_gel(seed, w=800, h=400):
