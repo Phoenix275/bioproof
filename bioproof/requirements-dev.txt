@@ -1,0 +1,8 @@
+# Test and CI dependencies (headless OpenCV so CI does not need a display)
+numpy
+opencv-python-headless
+pillow
+piexif
+scikit-image
+pytest
+ruff

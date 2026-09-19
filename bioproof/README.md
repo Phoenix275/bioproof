@@ -98,17 +98,27 @@ Three test images are included in `demo_images/`:
 }
 ```
 
+## Tests and Benchmarks
+
+```bash
+pip install -r requirements-dev.txt
+pytest -q                                   # unit + decision-tree tests
+python benchmarks/bench_analyzer.py --n 30  # detection rates and latency on labeled synthetic gels
+```
+
+GitHub Actions runs both on every push. Current benchmark: about 48 ms per 800x400 image, 30/30 visible watermark recall, 0/30 false positives. See [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md) for the design, full results, and known gaps.
+
 ## How It Works
 
 ### Synthetic Pattern Detection
 - Uses FFT (Fast Fourier Transform) analysis to detect synthetic grid patterns
 - Digitally generated images often have periodic textures not found in real lab photos
-- Threshold: periodicity_score > 0.25 adds 30 risk points
+- Threshold: periodicity_score > 0.25 adds 35 risk points
 
 ### Duplication Detection
 - Random template matching finds copy-pasted regions
 - Detects when the same band appears multiple times (common in fake results)
-- Threshold: clone_score > 0.98 adds 40 risk points
+- Threshold: clone_score > 0.97 adds 40 risk points
 
 ### Device Verification
 - Checks for camera/lab equipment metadata (EXIF tags)
