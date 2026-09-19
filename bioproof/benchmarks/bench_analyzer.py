@@ -42,7 +42,7 @@ def make_gel(seed, w=800, h=400):
 def clone_lane(img, seed):
     rng = np.random.default_rng(seed + 10_000)
     out = img.copy()
-    h, w = out.shape
+    _, w = out.shape
     patch = out[40:200, 60:140].copy()
     x = int(rng.integers(300, w - 90))
     out[180:340, x:x + 80] = patch
